@@ -1,4 +1,3 @@
-import { createGlobalStyle } from 'styled-components';
 import React from "react";
 import styled from "styled-components";
 import { MdDone, MdDelete,MdAdd } from "react-icons/md";
@@ -10,16 +9,6 @@ const RootBlock = styled.div`
     justify-content: center;
     align-items: center;
     font-family: 'Pangolin', cursive;
-
-`
-const GlobalStyle = createGlobalStyle`
-  body{
-    background-color: #E5E1DA;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 `
 const TodoTemplateBlock=styled.div`
     background-color: #FBF9F1;
@@ -142,7 +131,20 @@ const Input = styled.input`
     margin-left:20px;
 `;
 
+const Today = () => {
+  const today = new Date();
+  const dateString = today.toLocaleDateString(
+    ("ko-KR",
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+  );
 
+  const dayName = today.toLocaleDateString("en-EN", { weekday: "short" });
+  return `${dateString} (${dayName})`;
+}
 
 function App() {
   return (
@@ -150,7 +152,7 @@ function App() {
       <RootBlock>
         <TodoTemplateBlock>
           <TodoHeadBlock>
-            TodoList 2024.01.18 (THU)
+            TodoList {Today()}
           </TodoHeadBlock>
           <TodoListTemplateBlock>
             <TodoListBlock>
