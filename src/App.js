@@ -160,10 +160,36 @@ const Today = () => {
   return `${dateString} (${dayName})`;
 }
 
+const initialTodos = [
+  {
+    id: 1,
+    text: "Create Project",
+    done: true,
+  },
+  {
+    id: 2,
+    text: "Styling Componets",
+    done: true,
+  },
+  {
+    id: 3,
+    text: "Make Context",
+    done: false,
+  },
+  {
+    id: 4,
+    text: "Make Function",
+    done: false,
+  },
+    
+]
+
 function App() {
 
   const [open,setOpen] = useState(false)
-    const onOpen = ()=>{ setOpen(!open) }
+  const onOpen = ()=>{ setOpen(!open) }
+
+  const [todos,setTodo] = useState(initialTodos);
 
   return (
     <>
@@ -174,17 +200,21 @@ function App() {
           </TodoHeadBlock>
           <TodoListTemplateBlock>
             <TodoListBlock>
-              <TodoItemBlock>
-                <CheckCircle>
-                  <MdDone/>
-                </CheckCircle>
-                <TextBlock>
-                  <Text>Study React</Text>
-                  <Remove>
-                    <MdDelete />
-                  </Remove>
-                </TextBlock>
-              </TodoItemBlock>
+              {
+                todos.map((todos)=>(
+                  <TodoItemBlock key={todos.id}>
+                    <CheckCircle>
+                      <MdDone/>
+                    </CheckCircle>
+                    <TextBlock>
+                      <Text>{todos.text}</Text>
+                      <Remove>
+                        <MdDelete />
+                      </Remove>
+                    </TextBlock>
+                  </TodoItemBlock>
+                ))
+              }
             </TodoListBlock>
 
             <CreateBlock>
