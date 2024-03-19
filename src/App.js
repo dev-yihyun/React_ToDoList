@@ -78,6 +78,12 @@ const CheckCircle = styled.div`
   cursor: pointer;
   color:#AAD7D9;
   background-color:white;
+  ${(props) =>
+    props.$done ?
+    css`
+      border: 2px solid #38d9a9;
+      color: #38d9a9;
+    `:null}
 `
 //완료 : #38d9a9;
 
@@ -95,6 +101,12 @@ const Text = styled.div`
   font-size: 21px;
   color: black;
   font-weight: bolder;
+  ${props => props.$done?
+    css`
+    color:#a09f9c
+    `
+    :null
+  }
 `
 
 const CreateBlock = styled.div`
@@ -191,6 +203,11 @@ function App() {
 
   const [todos,setTodo] = useState(initialTodos);
 
+  const onDone = (id)=>{
+    const test=todos.map((todo)=>todo.id === id? {...todo,done:!todo.done} :todo )
+    setTodo(test);
+  }
+
   return (
     <>
       <RootBlock>
@@ -203,11 +220,11 @@ function App() {
               {
                 todos.map((todos)=>(
                   <TodoItemBlock key={todos.id}>
-                    <CheckCircle>
-                      <MdDone/>
+                    <CheckCircle onClick={()=>onDone(todos.id)} $done={todos.done}>
+                      {todos.done?(<MdDone />):null}
                     </CheckCircle>
                     <TextBlock>
-                      <Text>{todos.text}</Text>
+                      <Text $done={todos.done}>{todos.text}</Text>
                       <Remove>
                         <MdDelete />
                       </Remove>
