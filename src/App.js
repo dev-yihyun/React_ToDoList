@@ -207,7 +207,10 @@ function App() {
     const test=todos.map((todo)=>todo.id === id? {...todo,done:!todo.done} :todo )
     setTodo(test);
   }
-
+  const onDelete = (id)=>{
+    const state = todos.filter((todo)=> todo.id !== id)
+    setTodo(state)
+  }
   return (
     <>
       <RootBlock>
@@ -225,7 +228,7 @@ function App() {
                     </CheckCircle>
                     <TextBlock>
                       <Text $done={todos.done}>{todos.text}</Text>
-                      <Remove>
+                      <Remove onClick={()=>onDelete(todos.id)}>
                         <MdDelete />
                       </Remove>
                     </TextBlock>
