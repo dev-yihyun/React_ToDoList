@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import styled,{css} from "styled-components";
 import { MdDone, MdDelete,MdAdd } from "react-icons/md";
 
@@ -173,7 +172,7 @@ const Today = () => {
 }
 
 const initialTodos = [
-  {
+/*   {
     id: 1,
     text: "Create Project",
     done: true,
@@ -193,7 +192,7 @@ const initialTodos = [
     text: "Make Function",
     done: false,
   },
-    
+     */
 ]
 
 function App() {
@@ -203,13 +202,32 @@ function App() {
 
   const [todos,setTodo] = useState(initialTodos);
 
+  const [value,setValue] = useState('');
+
   const onDone = (id)=>{
-    const test=todos.map((todo)=>todo.id === id? {...todo,done:!todo.done} :todo )
-    setTodo(test);
+    const state=todos.map((todo)=>todo.id === id? {...todo,done:!todo.done} :todo )
+    setTodo(state);
   }
   const onDelete = (id)=>{
     const state = todos.filter((todo)=> todo.id !== id)
     setTodo(state)
+  }
+
+  const onChange = (e)=>{
+    setValue(e.target.value);
+  }
+  const nextId = useRef(0);
+  const onCreate = (e)=>{
+    const todo = {
+      id:nextId.current,
+      text:value,
+      done:false
+    }
+    setTodo(todos.concat(todo))
+    setValue("");
+    setOpen(false);
+    nextId.current+=1
+    e.preventDefault(); // 새로고침 방지
   }
   return (
     <>
@@ -242,10 +260,16 @@ function App() {
               
               {
                 open?
-                (<Input 
-                  autoFocus 
-                  placeholder="할 일을 입력 후, Enter 를 누르세요"
-                  />)
+                (
+                <form onSubmit={onCreate}>
+                  <Input 
+                    autoFocus 
+                    placeholder="할 일을 입력 후, Enter 를 누르세요"
+                    onChange={onChange}
+                    value={value}
+                  />
+                </form>
+                )
                 :null
               }
               
